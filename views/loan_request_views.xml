@@ -1,0 +1,22 @@
+<odoo>
+    <record id="view_loan_request_form" model="ir.ui.view">
+        <field name="name">loan.request.form</field>
+        <field name="model">loan.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="amount"/>
+                        <field name="term_days"/>
+                        <field name="interest_rate"/>
+                        <field name="state" readonly="1"/>
+                    </group>
+                    <footer>
+                        <button name="approve_loan" type="object" string="Aprobar" invisible="'state' '!=' 'draft'"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

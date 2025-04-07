@@ -1,0 +1,11 @@
+*.pyc
+*.pyo
+*.egg-info
+__pycache__/
+*.swp
+*.swo
+*.log
+*.pot
+*.mo
+/.idea/
+/.vscode/

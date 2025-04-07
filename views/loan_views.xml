@@ -1,0 +1,33 @@
+<odoo>
+    <record id="view_loan_form" model="ir.ui.view">
+        <field name="name">loan.loan.form</field>
+        <field name="model">loan.loan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="due_date"/>
+                        <field name="amount"/>
+                        <field name="interest_rate"/>
+                        <field name="total_amount"/>
+                        <field name="daily_payment"/>
+                        <field name="balance"/>
+                        <field name="state" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Pagos">
+                            <field name="payment_ids">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
