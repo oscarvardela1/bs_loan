@@ -40,6 +40,7 @@ class Loan(models.Model):
     interest_rate = fields.Float(string='Tasa de Interés (%)', required=True)
     total_amount = fields.Float(string='Total a Pagar', compute='_compute_total_amount', store=True)
     daily_payment = fields.Float(string='Monto a Pagar por Día', required=True)
+    start_date = fields.Date(string='Fecha de Inicio', required=True)
     due_date = fields.Date(string='Fecha de Vencimiento', required=True)
     balance = fields.Float(string='Saldo Pendiente', compute='_compute_balance', store=True)
     state = fields.Selection([
@@ -47,6 +48,8 @@ class Loan(models.Model):
         ('paid', 'Pagado'),
         ('overdue', 'En Mora')
     ], string='Estado', default='active')
+    sequence = fields.Integer(string='Secuencia', default=10)
+    missed_days = fields.Integer(string='Días No Pagados', compute='_compute_missed_days', store=True)
 
     @api.depends('amount', 'interest_rate')
     def _compute_total_amount(self):
@@ -64,6 +67,25 @@ class Loan(models.Model):
                 loan.state = 'overdue'
 
     payment_ids = fields.One2many('loan.payment', 'loan_id', string='Pagos')
+
+    @api.depends('payment_ids.date', 'start_date', 'due_date')
+    def _compute_missed_days(self):
+        for loan in self:
+            missed = 0
+            if loan.start_date and loan.due_date:
+                # Definir el rango de fechas: del inicio hasta hoy o la fecha de vencimiento (lo que sea menor)
+                today = date.today()
+                end_date = min(today, loan.due_date)
+                expected_days = set(loan.start_date + timedelta(days=i) 
+                                    for i in range((end_date - loan.start_date).days + 1))
+                
+                # Fechas en las que se hicieron pagos
+                paid_days = set(loan.payment_ids.mapped('date'))
+
+                # Días esperados que no tienen pago
+                missed = len(expected_days - paid_days)
+
+            loan.missed_days = missed
 
 class LoanPayment(models.Model):
     _name = 'loan.payment'

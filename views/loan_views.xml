@@ -4,17 +4,21 @@
         <field name="model">loan.loan</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="active,paid,overdue" readonly="1"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="name"/>
                         <field name="partner_id"/>
+                        <field name="start_date"/>
                         <field name="due_date"/>
                         <field name="amount"/>
                         <field name="interest_rate"/>
                         <field name="total_amount"/>
                         <field name="daily_payment"/>
+                        <field name="missed_days"/>
                         <field name="balance"/>
-                        <field name="state" readonly="1"/>
                     </group>
                     <notebook>
                         <page string="Pagos">
@@ -30,4 +34,19 @@
             </form>
         </field>
     </record>
+
+    <!-- vista tree de los prestamos -->
+    <record id="view_loan_tree" model="ir.ui.view">
+        <field name="name">loan.loan.tree</field>
+        <field name="model">loan.loan</field>
+        <field name="arch" type="xml">
+            <tree string="Préstamos" default_order="sequence asc">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
 </odoo>

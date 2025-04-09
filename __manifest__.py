@@ -1,6 +1,6 @@
 {
     'name': 'Prestamos',
-    'version': '1.3',
+    'version': '1.2',
     'summary': 'Prestamos',
     'description': "",
     'website': 'https://www.google.com',
