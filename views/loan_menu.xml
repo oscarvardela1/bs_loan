@@ -15,6 +15,26 @@
         <field name="context">{}</field>
     </record>
 
+    <record id="action_loan_expense" model="ir.actions.act_window">
+        <field name="name">Egresos</field>
+        <field name="res_model">loan.expense</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="action_loan_cashflow" model="ir.actions.act_window">
+        <field name="name">Flujo de Caja Semanal</field>
+        <field name="res_model">loan.cashflow</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_loan_expense" model="ir.actions.act_window">
+        <field name="name">Egresos</field>
+        <field name="res_model">loan.expense</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
     <!-- Menú principal de Gestión de Préstamos -->
     
     <menuitem id="menu_loan" name="Gestión de Préstamos" web_icon="hr_recruitment,static/description/icon.png" sequence="230" groups="base.group_user"/>
@@ -23,4 +43,8 @@
     <!-- Submenús -->
     <menuitem id="menu_loan_request" name="Solicitudes de Préstamo" parent="menu_loan" action="action_loan_request"/>
     <menuitem id="menu_loan_loan" name="Préstamos" parent="menu_loan" action="action_loan"/>
+
+    <menuitem id="menu_loan_expense" name="Egresos" action="action_loan_expense" parent="menu_loan"/>
+    <menuitem id="menu_loan_cashflow" name="Flujo Semanal" action="action_loan_cashflow" parent="menu_loan"/>
+    <menuitem id="menu_loan_balance" name="Balance General" action="action_loan_balance" parent="menu_loan"/>
 </odoo>

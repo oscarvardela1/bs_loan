@@ -2,3 +2,6 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_loan_request,access.loan.request,model_loan_request,base.group_user,1,1,1,1
 access_loan,access.loan,model_loan_loan,base.group_user,1,1,1,1
 access_loan_payment,access.loan_payment,model_loan_payment,base.group_user,1,1,1,1
+access_loan_expense,access.loan_expense,model_loan_expense,base.group_user,1,1,1,1
+access_loan_cashflow,access.loan_cashflow,model_loan_cashflow,base.group_user,1,1,1,1
+access_loan_global_balance,access.loan_global_balance,model_loan_global_balance,base.group_user,1,1,1,1

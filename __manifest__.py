@@ -10,6 +10,10 @@
         'views/loan_request_views.xml',
         'views/loan_views.xml',
         'views/loan_menu.xml',
+        'views/loan_expense_views.xml',
+        'views/loan_cashflow_views.xml',
+        'views/loan_balance_views.xml',
+        'views/loan_menu.xml',
     ],
     "assets": {
         

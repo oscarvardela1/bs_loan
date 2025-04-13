@@ -1,0 +1,27 @@
+<!-- loan_cashflow_view.xml -->
+<odoo>
+<record id="view_loan_cashflow_form" model="ir.ui.view">
+    <field name="name">loan.cashflow.form</field>
+    <field name="model">loan.cashflow</field>
+    <field name="arch" type="xml">
+        <form string="Flujo Semanal">
+            <group>
+                <field name="week_start"/>
+                <field name="week_end"/>
+            </group>
+            <group string="Resultados" col="4">
+                <field name="total_income" readonly="1"/>
+                <field name="total_expense" readonly="1"/>
+                <field name="balance" readonly="1"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+<record id="action_loan_cashflow" model="ir.actions.act_window">
+    <field name="name">Flujo de Caja Semanal</field>
+    <field name="res_model">loan.cashflow</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+</odoo>

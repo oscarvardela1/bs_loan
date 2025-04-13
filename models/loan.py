@@ -102,3 +102,57 @@ class LoanPayment(models.Model):
             loan.balance -= payment.amount
             if loan.balance <= 0:
                 loan.state = 'paid'
+
+
+class LoanExpense(models.Model):
+    _name = 'loan.expense'
+    _description = 'Egreso del sistema de préstamos'
+
+    name = fields.Char(string='Descripción', required=True)
+    date = fields.Date(string='Fecha', default=fields.Date.today, required=True)
+    amount = fields.Float(string='Monto', required=True)
+    category = fields.Selection([
+        ('food', 'Comida'),
+        ('fuel', 'Combustible'),
+        ('other', 'Otros'),
+    ], string='Categoría', default='other')
+
+
+class LoanCashflow(models.TransientModel):
+    _name = 'loan.cashflow'
+    _description = 'Flujo de Caja Semanal'
+
+    week_start = fields.Date(string="Inicio de la Semana", required=True)
+    week_end = fields.Date(string="Fin de la Semana", required=True)
+    total_income = fields.Float(string="Ingresos", compute="_compute_cashflow", store=False)
+    total_expense = fields.Float(string="Egresos", compute="_compute_cashflow", store=False)
+    balance = fields.Float(string="Balance Semanal", compute="_compute_cashflow", store=False)
+
+    @api.depends('week_start', 'week_end')
+    def _compute_cashflow(self):
+        for rec in self:
+            payments = self.env['loan.payment'].search([
+                ('date', '>=', rec.week_start),
+                ('date', '<=', rec.week_end)
+            ])
+            expenses = self.env['loan.expense'].search([
+                ('date', '>=', rec.week_start),
+                ('date', '<=', rec.week_end)
+            ])
+            rec.total_income = sum(payments.mapped('amount'))
+            rec.total_expense = sum(expenses.mapped('amount'))
+            rec.balance = rec.total_income - rec.total_expense
+
+
+class LoanSettings(models.TransientModel):
+    _name = 'loan.global.balance'
+    _description = 'Balance Global del Sistema de Préstamos'
+
+    current_balance = fields.Float(string='Balance Actual', compute='_compute_balance')
+
+    @api.depends()
+    def _compute_balance(self):
+        for rec in self:
+            total_income = sum(self.env['loan.payment'].search([]).mapped('amount'))
+            total_expense = sum(self.env['loan.expense'].search([]).mapped('amount'))
+            rec.current_balance = total_income - total_expense
