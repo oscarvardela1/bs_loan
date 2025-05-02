@@ -1,10 +1,10 @@
 {
     'name': 'Prestamos',
-    'version': '1.2',
+    'version': '1.3',
     'summary': 'Prestamos',
     'description': "",
     'website': 'https://www.google.com',
-    'depends': ['base'],
+    'depends': ['base','product'],
     'data': [
         'security/ir.model.access.csv',
         'views/loan_request_views.xml',
@@ -14,6 +14,7 @@
         'views/loan_cashflow_views.xml',
         'views/loan_balance_views.xml',
         'views/loan_menu.xml',
+        'views/product_template.xml',
     ],
     "assets": {
         
